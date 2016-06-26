@@ -131,46 +131,58 @@ func (n *NooliteAdapter) composeCommand(cmd command, channel int, args ...int) [
 	return c
 }
 
-func (n *NooliteAdapter) sendCommand(command []byte) {
+func (n *NooliteAdapter) sendCommand(command []byte) error {
 	n.Configuration(1)
+	if n.LastError() != "No error" {
+		return errors.New(n.LastError())
+	}
+
 	n.Interface(0)
+	if n.LastError() != "No error" {
+		return errors.New(n.LastError())
+	}
+
 	n.ControlMsg(0x21, 0x09, 0x300, 0, command)
+	if n.LastError() != "No error" {
+		return errors.New(n.LastError())
+	}
+	return nil
 }
 
 // Turn power OFF for specified channel
-func (n *NooliteAdapter) Off(channel int) {
+func (n *NooliteAdapter) Off(channel int) error {
 	cmd := n.composeCommand(off, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Smooth brightnes decrase for specified channel
-func (n *NooliteAdapter) DecraseBrightnes(channel int) {
+func (n *NooliteAdapter) DecraseBrightnes(channel int) error {
 	cmd := n.composeCommand(decBrightnes, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Turn power ON for specified channel
-func (n *NooliteAdapter) On(channel int) {
+func (n *NooliteAdapter) On(channel int) error {
 	cmd := n.composeCommand(on, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Smooth brightnes incrase for specified channel
-func (n *NooliteAdapter) IncraseBrightnes(channel int) {
+func (n *NooliteAdapter) IncraseBrightnes(channel int) error {
 	cmd := n.composeCommand(incBrightnes, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Switch power state between off and on for specified channel
-func (n *NooliteAdapter) Switch(channel int) {
+func (n *NooliteAdapter) Switch(channel int) error {
 	cmd := n.composeCommand(cSwitch, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Smooth brightnes incrase or decrase for specified channel
-func (n *NooliteAdapter) InvertBrightnes(channel int) {
+func (n *NooliteAdapter) InvertBrightnes(channel int) error {
 	cmd := n.composeCommand(invertBrightnes, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Set brightnes value for specified channel
@@ -178,81 +190,81 @@ func (n *NooliteAdapter) InvertBrightnes(channel int) {
 // Value must be in range 35..155.
 // When value == 0 lights off.
 // When value > 155 lights on for full brightness.
-func (n *NooliteAdapter) SetBrightnesValue(channel, value int) {
+func (n *NooliteAdapter) SetBrightnesValue(channel, value int) error {
 	cmd := n.composeCommand(set, channel, value)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Set brightnes values for independens channels
 //
 // Available for SD111-180 only
-func (n *NooliteAdapter) SetBrightnesValues(channel, val1, val2, val3 int) {
+func (n *NooliteAdapter) SetBrightnesValues(channel, val1, val2, val3 int) error {
 	cmd := n.composeCommand(set, channel, val1, val2, val3)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Call scenario for specified channel
-func (n *NooliteAdapter) CallScenario(channel int) {
+func (n *NooliteAdapter) CallScenario(channel int) error {
 	cmd := n.composeCommand(callScenario, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Save scenario for specified channel
-func (n *NooliteAdapter) SaveScenario(channel int) {
+func (n *NooliteAdapter) SaveScenario(channel int) error {
 	cmd := n.composeCommand(saveScenario, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Unbind signal for specified channel
-func (n *NooliteAdapter) UnbindChannel(channel int) {
+func (n *NooliteAdapter) UnbindChannel(channel int) error {
 	cmd := n.composeCommand(unbind, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Stop color selection for specified channel
 //
 // Available for SD111-180 only
-func (n *NooliteAdapter) StopColorSelection(channel int) {
+func (n *NooliteAdapter) StopColorSelection(channel int) error {
 	cmd := n.composeCommand(stopColorSelection, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Set binding for specified channel
-func (n *NooliteAdapter) BindChannel(channel int) {
+func (n *NooliteAdapter) BindChannel(channel int) error {
 	cmd := n.composeCommand(bind, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Smooth color changing for specified channel
 //
 // Stop with StopColorSelection method
-// 
+//
 // Avialable for SD111-180 only
-func (n *NooliteAdapter) ColorSelection(channel int) {
+func (n *NooliteAdapter) ColorSelection(channel int) error {
 	cmd := n.composeCommand(colorSelection, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Switch color for specified channel
 //
 // Avialable for SD111-180 only
-func (n *NooliteAdapter) ColorSwitch(channel int) {
+func (n *NooliteAdapter) ColorSwitch(channel int) error {
 	cmd := n.composeCommand(colorSwitch, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Switch work mode for specified channel
 //
 // Avialable for SD111-180 only
-func (n *NooliteAdapter) ModeSwitch(channel int) {
+func (n *NooliteAdapter) ModeSwitch(channel int) error {
 	cmd := n.composeCommand(modeSwitch, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
 
 // Set change color speed for specified channel
 //
 // Avialable for SD111-180 only
-func (n *NooliteAdapter) EffectSpeed(channel int) {
+func (n *NooliteAdapter) EffectSpeed(channel int) error {
 	cmd := n.composeCommand(effectSpeed, channel)
-	n.sendCommand(cmd)
+	return n.sendCommand(cmd)
 }
