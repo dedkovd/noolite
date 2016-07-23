@@ -89,12 +89,6 @@ func NewNooliteAdapter(mode, bitrate, repeats uint) (*NooliteAdapter, error) {
 
 	m := (byte(repeats) << 5) | (byte(bitrate) << 3) | byte(mode)
 
-	d.Configuration(1)
-	if d.LastError() != "No error" {
-		defer d.Close()
-		return nil, errors.New(d.LastError())
-	}
-
 	d.Interface(0)
 	if d.LastError() != "No error" {
 		defer d.Close()
