@@ -89,6 +89,16 @@ func NewNooliteAdapter(mode, bitrate, repeats uint) (*NooliteAdapter, error) {
 
 	m := (byte(repeats) << 5) | (byte(bitrate) << 3) | byte(mode)
 
+	d.Configuration(1)
+	if d.LastError() != "No error" {
+		return nil, errors.New(d.LastError())
+	}
+
+	d.Interface(0)
+	if d.LastError() != "No error" {
+		return nil, errors.New(d.LastError())
+	}
+
 	return &NooliteAdapter{d, m}, nil
 }
 
@@ -132,16 +142,6 @@ func (n *NooliteAdapter) composeCommand(cmd command, channel int, args ...int) [
 }
 
 func (n *NooliteAdapter) sendCommand(command []byte) error {
-	n.Configuration(1)
-	if n.LastError() != "No error" {
-		return errors.New(n.LastError())
-	}
-
-	n.Interface(0)
-	if n.LastError() != "No error" {
-		return errors.New(n.LastError())
-	}
-
 	n.ControlMsg(0x21, 0x09, 0x300, 0, command)
 	if n.LastError() != "No error" {
 		return errors.New(n.LastError())
