@@ -107,6 +107,29 @@ func DefaultNooliteAdapter() (*NooliteAdapter, error) { // Default constructor
 	return NewNooliteAdapter(0, 2, 2)
 }
 
+func (n *NooliteAdapter) FindCommand(command string) (func(int) error, bool) {
+	m := map[string]func(int) error {
+		"on": n.On,
+		"off": n.Off,
+		"switch": n.Switch,
+		"decraseBrightnes": n.DecraseBrightnes,
+		"incraseBrightnes": n.IncraseBrightnes,
+		"invertBrightnes": n.InvertBrightnes,
+		"callScenario": n.CallScenario,
+		"saveScenario": n.SaveScenario,
+		"unbind": n.UnbindChannel,
+		"stopColorSelection": n.StopColorSelection,
+		"bind": n.BindChannel,
+		"colorSelection": n.ColorSelection,
+		"colorSwitch": n.ColorSwitch,
+		"modeSwitch": n.ModeSwitch,
+		"effectSpeed": n.EffectSpeed,
+	}
+
+	cmd, ok := m[command]
+	return cmd, ok
+}
+
 func (n *NooliteAdapter) composeCommand(cmd command, channel int, args ...int) []byte {
 	c := make([]byte, 8)
 
