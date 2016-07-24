@@ -80,7 +80,9 @@ func main() {
 	defer n.Close()
 
 	http.HandleFunc("/noolite/", func(w http.ResponseWriter, r *http.Request) {
-		err := sendCommand(n, parseParams(r.URL.Path[1:]))
+		command, channel, value, red, green, blue := parseParams(r.URL.Path[1:])
+
+		err := sendCommand(n, command, channel, value, red, green, blue)
 
 		if err != nil {
 			fmt.Fprintf(w, "{\"error\": %q}", err)
