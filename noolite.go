@@ -107,6 +107,9 @@ func DefaultNooliteAdapter() (*NooliteAdapter, error) { // Default constructor
 	return NewNooliteAdapter(0, 2, 2)
 }
 
+// Return NooliteAdapter method for string command
+//
+// Set command must be separately processed because have different signature
 func (n *NooliteAdapter) FindCommand(command string) (func(int) error, bool) {
 	m := map[string]func(int) error {
 		"on": n.On,
