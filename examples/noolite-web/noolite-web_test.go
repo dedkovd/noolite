@@ -64,7 +64,7 @@ func TestParseParams(t *testing.T) {
 		t.Error("RGB 000 expected")
 	}
 
-	cmd, ch, v, r, g, b = parseParams("")
+	cmd, ch, v, r, g, b = parseParams("/")
 
 	if cmd != "" || ch != -1 || v != 0 || r != 0 || g != 0 || b != 0 {
 		t.Error("Default values expected")
