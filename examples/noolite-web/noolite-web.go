@@ -1,3 +1,25 @@
+/*
+Copyright 2016 Denis V. Dedkov (denis.v.dedkov@gmail.com)
+
+This file is part of Noolite Go bindings.
+
+Noolite Go bindings is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+Noolite Go bindings is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Noolite Go bindings.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// Example WEB-server for control noolite adapter
+//
+// Default run on :8080 with static dir /var/www/static
 package main
 
 import (
