@@ -27,6 +27,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/dedkovd/noolite"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -88,8 +89,8 @@ func parseParams(path string) (string, int, int, int, int, int) {
 }
 
 func main() {
-	binding := *flag.String("bind", ":8080", "Address binding")
-	static_dir := *flag.String("static", "/var/www/static", "Static directory")
+	binding := flag.String("bind", ":8080", "Address binding")
+	static_dir := flag.String("static", "/var/www/static", "Static directory")
 
 	flag.Parse()
 
@@ -113,9 +114,10 @@ func main() {
 		}
 	})
 
-	fs := http.FileServer(http.Dir(static_dir))
+	fs := http.FileServer(http.Dir(*static_dir))
 
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	panic(http.ListenAndServe(binding, nil))
+	log.Println("Start listening at", *binding)
+	panic(http.ListenAndServe(*binding, nil))
 }
